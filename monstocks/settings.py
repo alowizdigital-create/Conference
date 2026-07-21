@@ -44,10 +44,10 @@ ALLOWED_HOSTS = ['*']
 
 # DEBUG = True
 
-# ALLOWED_HOSTS = [
-#     "zweey.com",
-#     "www.zweey.com",
-# ]
+ALLOWED_HOSTS = [
+    "conference.zweey.com",
+    "www.conference.zweey.com/",
+]
 
 
 # CSRF_TRUSTED_ORIGINS = [
