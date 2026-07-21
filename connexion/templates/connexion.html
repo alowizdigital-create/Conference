@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonStocks | Connexion</title>
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+        href="{% static 'adminlte/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+    <!-- AdminLTE -->
+    <link rel="stylesheet"
+        href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+
+    <style>
+        :root {
+            --primary-color: #0d837c;
+            --secondary-color: #235467;
+            --background: #e9ecef;
+        }
+
+        body {
+            background: var(--background);
+        }
+
+        .login-logo a {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .login-logo b {
+            color: var(--primary-color);
+        }
+
+        .card {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .login-card-body {
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .login-box-msg {
+            font-size: 15px;
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+
+        .input-group-text {
+            background: #fff;
+            border-left: none;
+        }
+
+        .form-control {
+            border-right: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #173f50;
+        }
+
+        a {
+            color: var(--primary-color);
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .alert {
+            font-size: 14px;
+        }
+
+        #togglePassword {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body class="hold-transition login-page">
+
+    <div class="login-box">
+
+        <div class="login-logo">
+            <a href="/">
+                <b>Conference</b>
+            </a>
+        </div>
+
+        <div class="card shadow">
+
+            <div class="card-body login-card-body">
+
+                <p class="login-box-msg">
+                    Connectez-vous pour accéder à votre espace.
+                </p>
+
+                <!-- Messages Django -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                                <form method="POST" action="{% url 'connexion' %}">
+
+                    {% csrf_token %}
+
+                    <!-- Nom d'utilisateur -->
+
+                    <div class="input-group mb-3">
+
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            placeholder="Nom d'utilisateur"
+                            required
+                            autofocus>
+
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Mot de passe -->
+
+                    <div class="input-group mb-3">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Mot de passe"
+                            required>
+
+                        <div class="input-group-append">
+
+                            <span class="input-group-text"
+                                  id="togglePassword">
+
+                                <i class="fas fa-eye-slash"></i>
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-7">
+
+                            <div class="custom-control custom-checkbox">
+
+                                <input
+                                    class="custom-control-input"
+                                    type="checkbox"
+                                    id="remember">
+
+                                <label
+                                    for="remember"
+                                    class="custom-control-label">
+
+                                    Se souvenir de moi
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-5">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-block">
+
+                                <i class="fas fa-sign-in-alt mr-1"></i>
+
+                                Connexion
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <hr>
+
+                <p class="mb-2 text-center">
+
+                    <a href="#">
+
+                        <i class="fas fa-key mr-1"></i>
+
+                        Mot de passe oublié ?
+
+                    </a>
+
+                </p>
+
+                <p class="mb-0 text-center">
+
+                    Vous n'avez pas encore de compte ?
+
+                    <a href="{% url 'inscription' %}">
+
+                        <strong>S'inscrire</strong>
+
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>

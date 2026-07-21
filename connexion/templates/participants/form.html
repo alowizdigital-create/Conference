@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container mt-4">
+
+
+    <div class="card shadow">
+
+
+        <div class="card-header">
+
+         
+            <h3>
+                {{ title|default:"Ajouter un participant" }}
+            </h3>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+
+           <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- Formulaire -->
+              <div class="col-12 col-md-8 order-2 order-md-1">
+
+                    <div class="row">
+
+                        {% for field in form %}
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    {{ field.label }}
+                                </label>
+
+                                <!-- {{ field }} -->
+
+                                {% if field.name == "photo" %}
+
+                                <label class="btn btn-primary w-100">
+                                    📷 Ajouter une photo
+                                    {{ field }}
+                                </label>
+
+                                {% else %}
+
+                                    {{ field }}
+
+                                {% endif %}
+
+                                {% if field.errors %}
+                                    <div class="text-danger">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+               <!-- Carte aperçu participant -->
+
+               <!-- Carte aperçu participant -->
+
+              <div class="col-12 col-md-3 order-1 order-md-2 mb-4">
+
+                    <div class="card shadow-sm">
+
+                        <div class="card-header bg-primary text-white text-center py-2">
+
+                            <small>
+                                Aperçu badge
+                            </small>
+
+                        </div>
+
+
+                        <div class="card-body text-center p-3">
+
+                            <img id="preview"
+                               
+                                 src="{% if form.instance.photo %}{{ form.instance.photo.url }}{% else %}https://via.placeholder.com/100{% endif %}"
+                                class="rounded-circle mb-2"
+                                style="
+                                    width:90px;
+                                    height:90px;
+                                    object-fit:cover;
+                                ">
+
+
+                            <h6 id="preview_name"
+                                class="mb-1">
+
+                                Nom complet
+
+                            </h6>
+
+
+                            <span class="badge badge-success"
+                                id="preview_quality">
+
+                                Qualité
+
+                            </span>
+
+
+                            <hr class="my-2">
+
+
+                            <p class="mb-1 small">
+
+                                <i class="fas fa-church"></i>
+
+                                <span id="preview_church">
+                                    Église locale
+                                </span>
+
+                            </p>
+
+
+                            <p class="mb-1 small">
+
+                                <i class="fas fa-users"></i>
+
+                                <span id="preview_congregation">
+                                    Congrégation
+                                </span>
+
+                            </p>
+
+
+                            <p class="mb-1 small">
+
+                                <i class="fas fa-map-marker-alt"></i>
+
+                                <span id="preview_location">
+                                    Ville - Pays
+                                </span>
+
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                Enregistrer
+            </button>
+
+            <a href="{% url 'participant_list' %}" class="btn btn-secondary">
+                Annuler
+            </a>
+
+        </form>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+<!-- <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.querySelector('input[type="file"]');
+    const preview = document.getElementById("preview");
+
+    if (input) {
+
+        input.addEventListener("change", function (e) {
+
+            const file = e.target.files[0];
+
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                preview.src = event.target.result;
+
+            }
+
+            reader.readAsDataURL(file);
+
+        });
+
+    }
+
+});
+
+</script> -->
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+
+    // Champs Django
+    const nameInput = document.getElementById("id_full_name");
+    const churchInput = document.getElementById("id_local_church");
+    const congregationInput = document.getElementById("id_congregation");
+    const cityInput = document.getElementById("id_city");
+    const countryInput = document.getElementById("id_country");
+    const qualityInput = document.getElementById("id_quality");
+    const photoInput = document.getElementById("id_photo");
+
+
+    // Zone aperçu
+    const previewName = document.getElementById("preview_name");
+    const previewChurch = document.getElementById("preview_church");
+    const previewCongregation = document.getElementById("preview_congregation");
+    const previewLocation = document.getElementById("preview_location");
+    const previewQuality = document.getElementById("preview_quality");
+    const previewImage = document.getElementById("preview");
+
+
+    function updatePreview(){
+
+        previewName.textContent =
+            nameInput.value || "Nom complet";
+
+
+        previewChurch.textContent =
+            churchInput.value || "Église locale";
+
+
+        previewCongregation.textContent =
+            congregationInput.value || "Congrégation";
+
+
+        let city = cityInput.value || "Ville";
+
+        let country = countryInput.options
+            ? countryInput.options[countryInput.selectedIndex]?.text
+            : "Pays";
+
+
+        previewLocation.textContent =
+            city + " - " + country;
+
+
+
+        previewQuality.textContent =
+            qualityInput.options[qualityInput.selectedIndex]?.text
+            || "Qualité";
+
+    }
+
+
+// Mise à jour automatique au chargement
+updatePreview();
+
+
+// Mise à jour pendant la modification
+
+[
+    nameInput,
+    churchInput,
+    congregationInput,
+    cityInput,
+    countryInput,
+    qualityInput
+
+].forEach(function(field){
+
+    if(field){
+
+        field.addEventListener(
+            "input",
+            updatePreview
+        );
+
+
+        field.addEventListener(
+            "change",
+            updatePreview
+        );
+
+    }
+
+});
+
+
+    // Prévisualisation image
+
+    if(photoInput){
+
+        photoInput.addEventListener(
+            "change",
+            function(event){
+
+
+                const file =
+                    event.target.files[0];
+
+
+                if(file){
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(e){
+
+                            previewImage.src =
+                                e.target.result;
+
+                        };
+
+                    reader.readAsDataURL(file);
+
+                }
+
+            }
+        );
+
+    }
+});
+
+</script>
+
+
+{% endblock %}
