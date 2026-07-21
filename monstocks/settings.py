@@ -49,6 +49,11 @@ ALLOWED_HOSTS = [
     "www.conference.zweey.com/",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://conference.zweey.com",
+    "https://www.conference.zweey.com",
+]
+
 
 # CSRF_TRUSTED_ORIGINS = [
 #     "https://zweey.com",
