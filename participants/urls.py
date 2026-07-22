@@ -28,4 +28,10 @@ urlpatterns = [
         name='participant_delete'
     ),
 
+     path(
+        "",
+        dashboard,
+        name="dashboard"
+    ),
+
 ]
