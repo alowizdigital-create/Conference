@@ -49,7 +49,7 @@ class Participant(BaseModel):
     )
 
     country = models.CharField(
-        max_length=2,
+        max_length=9,
         choices=COUNTRY_CHOICES,
         verbose_name="Pays"
     )
