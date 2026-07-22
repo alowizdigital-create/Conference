@@ -1,5 +1,31 @@
 from django.shortcuts import render,redirect
 from .forms import CompanyForm
+from participants.models import Participant
+
+
+def dashboard(request):
+
+    context = {
+        "participants_count": Participant.objects.count(),
+
+        "responsables_count": Participant.objects.filter(
+            quality="responsable"
+        ).count(),
+
+        "pasteurs_count": Participant.objects.filter(
+            quality="pasteur"
+        ).count(),
+
+        "etudiants_count": Participant.objects.filter(
+            quality="etudiant"
+        ).count(),
+
+        "participants": Participant.objects.order_by("-created_at")[:5],
+    }
+
+    return render(request, "dashboard/index.html", context)
+
+
 
 # Create your views here.
 
