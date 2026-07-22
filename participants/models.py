@@ -10,6 +10,8 @@ class Participant(BaseModel):
         ('responsable', 'Responsable'),
         ('pasteur', 'Pasteur'),
         ('etudiant_pasteur', 'Étudiant pasteur'),
+        ('protocole', 'Protocole'),
+        ('evangeliste', 'Évangeliste'),
     ]
 
     COUNTRY_CHOICES = [
