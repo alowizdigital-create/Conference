@@ -15,22 +15,16 @@ class Participant(BaseModel):
     ]
 
     COUNTRY_CHOICES = [
-        ('CM', 'Cameroun'),
-        ('CF', 'République centrafricaine'),
-        ('TD', 'Tchad'),
-        ('GA', 'Gabon'),
-        ('CG', 'Congo'),
-        ('CD', 'République démocratique du Congo'),
+        ('CMR', 'Cameroun'),
+        ('RCA', 'République centrafricaine'),
+        ('TCHAD', 'Tchad'),
+        ('GM', 'Gambie'),
+        ('ET', 'Ethiopie'),
+        ('CAG', 'Congo'),
         ('CI', "Côte d'Ivoire"),
         ('SN', 'Sénégal'),
-        ('BF', 'Burkina Faso'),
-        ('ML', 'Mali'),
-        ('NE', 'Niger'),
-        ('GN', 'Guinée'),
-        ('BJ', 'Bénin'),
-        ('TG', 'Togo'),
         ('FR', 'France'),
-        ('US', 'États-Unis'),
+        ('USA', 'États-Unis'),
     ]
 
 
