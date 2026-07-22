@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Participant
 from .forms import ParticipantForm
-from django.db.models import Q
+from django.db.models import Q, Count
 
 
 
@@ -16,6 +16,34 @@ from django.db.models import Q
 #             'participants': participants
 #         }
 #     )
+
+
+def dashboard(request):
+
+    participants = Participant.objects.all()
+
+    context = {
+        "total_participants": participants.count(),
+        "total_pasteurs": participants.filter(quality="pasteur").count(),
+        "total_responsables": participants.filter(quality="responsable").count(),
+        "total_etudiants": participants.filter(quality="etudiant").count(),
+
+        "last_participants":
+            participants.order_by("-created_at")[:8],
+
+        "countries":
+            participants.values("country")
+                        .annotate(total=Count("id"))
+                        .order_by("-total"),
+    }
+
+    return render(
+        request,
+        "dashboard.html",
+        context
+    )
+
+
 
 
 def participant_list(request):
