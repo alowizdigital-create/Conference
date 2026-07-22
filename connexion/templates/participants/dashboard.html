@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tableau de bord
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+
+<div class="container-fluid">
+
+<div class="row">
+
+<div class="col-lg-3 col-6">
+
+<div class="small-box bg-info">
+
+<div class="inner">
+
+<h3>{{ total_participants }}</h3>
+
+<p>Participants</p>
+
+</div>
+
+<div class="icon">
+
+<i class="fas fa-users"></i>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-lg-3 col-6">
+
+<div class="small-box bg-success">
+
+<div class="inner">
+
+<h3>{{ total_pasteurs }}</h3>
+
+<p>Pasteurs</p>
+
+</div>
+
+<div class="icon">
+
+<i class="fas fa-user-tie"></i>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-lg-3 col-6">
+
+<div class="small-box bg-warning">
+
+<div class="inner">
+
+<h3>{{ total_responsables }}</h3>
+
+<p>Responsables</p>
+
+</div>
+
+<div class="icon">
+
+<i class="fas fa-user-shield"></i>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-lg-3 col-6">
+
+<div class="small-box bg-danger">
+
+<div class="inner">
+
+<h3>{{ total_etudiants }}</h3>
+
+<p>Étudiants Pasteurs</p>
+
+</div>
+
+<div class="icon">
+
+<i class="fas fa-user-graduate"></i>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="row">
+
+<div class="col-md-7">
+
+<div class="card">
+
+<div class="card-header">
+
+<h3 class="card-title">
+
+Derniers participants
+
+</h3>
+
+</div>
+
+<div class="card-body p-0">
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+<th>Photo</th>
+
+<th>Nom</th>
+
+<th>Ville</th>
+
+<th>Pays</th>
+
+<th>Qualité</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for p in last_participants %}
+
+<tr>
+
+<td>
+
+{% if p.photo %}
+
+<img src="{{ p.photo.url }}"
+
+width="40"
+
+height="40"
+
+class="img-circle">
+
+{% endif %}
+
+</td>
+
+<td>{{ p.full_name }}</td>
+
+<td>{{ p.city }}</td>
+
+<td>{{ p.country }}</td>
+
+<td>{{ p.get_quality_display }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="col-md-5">
+
+<div class="card">
+
+<div class="card-header">
+
+<h3 class="card-title">
+
+Participants par pays
+
+</h3>
+
+</div>
+
+<div class="card-body">
+
+<canvas id="countryChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const labels = [
+
+{% for c in countries %}
+
+"{{ c.country }}",
+
+{% endfor %}
+
+];
+
+const values = [
+
+{% for c in countries %}
+
+{{ c.total }},
+
+{% endfor %}
+
+];
+
+new Chart(document.getElementById("countryChart"),{
+
+type:"doughnut",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+data:values
+
+}]
+
+}
+
+});
+
+</script>
+
+{% endblock %}
