@@ -28,6 +28,12 @@ urlpatterns = [
         name='participant_delete'
     ),
 
+    path(
+    "import/",
+    views.participant_import,
+    name="participant_import",
+),
+
     #  path(
     #     "dashboard",
     #     views.dashboard,
