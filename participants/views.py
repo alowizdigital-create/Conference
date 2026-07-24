@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Participant
 from .forms import ParticipantForm
 from django.db.models import Q
+from openpyxl import load_workbook
+from django.http import JsonResponse
+from .models import Participant
 # from django.db.models import Count
 
 
@@ -43,6 +46,68 @@ from django.db.models import Q
 #         "dashboard.html",
 #         context
 #     )
+
+
+# @login_required
+def participant_import(request):
+
+    if request.method != "POST":
+
+        return JsonResponse({
+
+            "message":"Méthode invalide."
+
+        },status=400)
+
+
+    fichier = request.FILES.get("excel")
+
+    if not fichier:
+
+        return JsonResponse({
+
+            "message":"Aucun fichier sélectionné."
+
+        },status=400)
+
+
+    wb = load_workbook(fichier)
+
+    ws = wb.active
+
+
+    compteur = 0
+
+
+    for row in ws.iter_rows(min_row=2, values_only=True):
+
+        Participant.objects.create(
+
+            full_name=row[0],
+
+            local_church=row[1],
+
+            congregation=row[2],
+
+            city=row[3],
+
+            country=row[4],
+
+            quality=row[5],
+
+            phone=row[6],
+
+            created_by=request.user
+
+        )
+
+        compteur += 1
+
+    return JsonResponse({
+
+        "message":f"{compteur} participant(s) importé(s)."
+
+    })
 
 
 
