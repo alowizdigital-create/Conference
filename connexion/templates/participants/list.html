@@ -49,14 +49,14 @@
 
 
         <div class="ml-auto">
-            <button type="button"
-                    class="btn btn-success"
-                    data-toggle="modal"
-                    data-target="#importModal">
+             <button type="button"
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#importModal">
         
-                <i class="fas fa-file-excel"></i>
-                Importer
-        
+            <i class="fas fa-file-excel"></i>
+            Importer
+
             </button>
         
             <a href="{% url 'participant_create' %}"
@@ -315,7 +315,9 @@
 
 
 <div class="modal fade"
-     id="importModal">
+     id="importModal"
+     tabindex="-1"
+     aria-hidden="true">
 
     <div class="modal-dialog">
 
@@ -323,58 +325,59 @@
 
             <div class="modal-header">
 
-                <h5>
-                    Importer les participants
+                <h5 class="modal-title">
+                    Importer des participants
                 </h5>
 
-                <button class="close"
-                        data-dismiss="modal">
-
-                    &times;
-
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
                 </button>
 
             </div>
 
             <div class="modal-body">
 
-                <form id="importForm">
+                <form id="importForm"
+                      enctype="multipart/form-data">
 
                     {% csrf_token %}
 
-                    <div class="form-group">
+                    <div class="mb-3">
 
-                        <label>
-
-                            Sélectionner le fichier Excel
-
+                        <label class="form-label">
+                            Sélectionner un fichier Excel
                         </label>
 
-                        <input type="file"
-                               name="excel"
-                               id="excelFile"
-                               class="form-control"
-                               accept=".xlsx,.xls">
+                        <input
+                            class="form-control"
+                            type="file"
+                            id="excelFile"
+                            accept=".xlsx,.xls">
 
                     </div>
 
-                </form>
+                    <div id="importMessage"></div>
 
-                <div id="importMessage"></div>
+                </form>
 
             </div>
 
             <div class="modal-footer">
 
-                <button class="btn btn-secondary"
-                        data-dismiss="modal">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
 
                     Fermer
 
                 </button>
 
-                <button id="btnImport"
+                <button type="button"
+                        id="btnImport"
                         class="btn btn-success">
+
+                    <i class="fas fa-upload"></i>
 
                     Importer
 
