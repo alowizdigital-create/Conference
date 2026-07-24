@@ -4,7 +4,6 @@ from .forms import ParticipantForm
 from django.db.models import Q
 from openpyxl import load_workbook
 from django.http import JsonResponse
-from .models import Participant
 # from django.db.models import Count
 
 
